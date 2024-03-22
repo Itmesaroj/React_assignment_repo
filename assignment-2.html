@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSX and Babel</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // Simple JSX Element
+      // Create a root instance using createRoot
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+
+      // Create a JSX element representing a paragraph with  text "Seize the day"
+      const element1 = <p>Seize the day</p>;
+      // Render the first paragraph element inside the div with the id root
+      root.render(element1);
+
+      // Dynamic Content in JSX
+
+      // Define a JavaScript variable with dynamic content
+      const dynamicText = "Seize the day";
+      // Create a JSX element using the dynamic content variable
+      const element2 = <p>{dynamicText}</p>;
+      // Render the paragraph with dynamic content inside the div with the id root
+      root.render(element2);
+
+      // Conditional Rendering in JSX
+
+      // Create a JavaScript variable that holds a boolean value
+      const condition = true; 
+      // Use the boolean variable to conditionally render one of two paragraphs
+      const element3 = <p>{condition ? "Good morning" : "Good night"}</p>;
+      // Render the appropriate paragraph based on the boolean value inside the div with the id root
+      root.render(element3);
+    </script>
+  </body>
+</html>

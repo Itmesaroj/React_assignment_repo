@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your task starts here
+
+
+    // Create a React p tag  with the text "Seize the day"
+    let element=React.createElement("p",null,"Seize the day");
+
+    // using this ReactDom.render  method we render the element in the root conatiner
+    ReactDOM.render(element,document.getElementById("root"));
+
+
+    // Observation
+    // React:-React follows the Declarative Approach, where the developer only needs to define how the UI should look, and the approach is automatically handled by React. This makes it easier to read and maintain code. React utilizes a virtual DOM to efficiently manipulate the real DOM, and also improve  performance.
+
+    // traditional DOM manipulation:-Traditional DOM manipulation follows the imperative approach, in which the developer defines both how the UI should look and the step-by-step approach. Sometimes, it is difficult to read and maintain code because it tends to be lengthy. In the traditional approach, the DOM is manipulated directly based on the code written sometime the page take time to load .
+  </script>
+</html>

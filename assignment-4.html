@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic List Rendering</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your ItemList component code will go here
+    let root=ReactDOM.createRoot(document.getElementById("root"));
+// Define the Gallery component
+    function Gallery(props){
+       
+        return (
+                <div style={{ width: "100vw", height: "100vh", display: "grid", gridTemplateColumns: "repeat(3,1fr)",gap:"2rem" }}>
+                    {props.children}
+                </div>
+                );
+    }
+    // define the Image Component
+    function Image({src}){
+        return(
+            <img src={src} alt="gallery image" />
+        )
+    }
+    // Define the App component
+    function App(){
+        return(
+            <Gallery>
+               <Image src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" />
+                <Image src="https://images.unsplash.com/photo-1551021794-03be4ddaf67d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGltYWdlfGVufDB8fDB8fHww" />
+                <Image src="https://images.unsplash.com/photo-1551021794-03be4ddaf67d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGltYWdlfGVufDB8fDB8fHww" />
+            </Gallery>
+        )
+    }
+    // Render the App component into the root div
+    root.render(<App/>)
+  </script>
+</body>
+</html>

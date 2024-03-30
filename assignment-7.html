@@ -29,7 +29,9 @@
 
             return (
                 <>
+                 {/* In the value attribute we assign the state variable value which represent the user enter color. if the user tyep anythig in the input filed the onChage event occure and chage the color state variable value with the user enter value*/}
                     <input value={color} onChange={(e) => setColor(e.target.value)} style={{marginBottom:"20px"}}/>
+                    {/*In this component we pass the prope color(state variable ) this component cheack the color which enter by user is coorect in the hex format if is correct than is color div display on the browser and if it is not than display a message that the color is not correct in hex format*/}
                     <Display color={color} />
                 </>
             );

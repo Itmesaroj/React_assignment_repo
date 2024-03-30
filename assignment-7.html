@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Picker</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function Display({ color }) {
+          // check that the color is vaild or not in hrx format
+          const isValidHex = /^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color);
+          console.log(isValidHex);
+            if (isValidHex) {
+                return (
+                    <div style={{ backgroundColor: color, width: "300px", height: "300px", border: "2px solid black" }}></div>
+                );
+            }
+            return (<p style={{color:"red"}}>HEX Color code is not correct</p>);
+        }
+
+        function App() {
+          // create state variable
+            const [color, setColor] = React.useState("#FFFFFF");
+
+            return (
+                <>
+                    <input value={color} onChange={(e) => setColor(e.target.value)} style={{marginBottom:"20px"}}/>
+                    <Display color={color} />
+                </>
+            );
+        }
+// render the element in the dom;
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+</html>

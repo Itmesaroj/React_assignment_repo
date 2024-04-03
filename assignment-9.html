@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    function App() {
+      let questionsArray = [
+        {
+          question: 'What is HTML?',
+          options: ["HTML describes the structure of a webpage", "HTML is the standard markup language mainly used to create web pages","HTML consists of a set of elements that helps the browser how to view the content","All of the mentioned"],
+          correctAnswer:'HTML is the standard markup language mainly used to create web pages',
+        },
+        {
+          question:" Who is the father of HTML?",
+          options:["Rasmus Lerdorf","Tim Berners-Lee"," Brendan Eich"," Sergey Brin"],
+          correctAnswer:"Tim Berners-Lee"
+        },
+        {
+          question:"What is the correct syntax of doctype in HTML5?",
+          options:["</doctype html>","<doctype html>"," <doctype html!>"," <!doctype html>"],
+          correctAnswer:"<doctype html>"    
+        }
+      ];
+
+      const [selectedAnswers, setSelectedAnswers] = React.useState(Array(questionsArray.length).fill(''));
+      const [score, setScore] = React.useState(null);
+      const [submitted, setSubmitted] = React.useState(false);
+
+      const handleAnswerChange = (index, value) => {
+        const updatedAnswers = [...selectedAnswers];
+        updatedAnswers[index] = value;
+        setSelectedAnswers(updatedAnswers);
+      };
+
+      const handleSubmit = () => {
+        let newScore = 0;
+        questionsArray.forEach((question, index) => {
+          if (selectedAnswers[index] === question.correctAnswer) {
+            newScore=newScore+1;
+          }
+        });
+        console.log(selectedAnswers);
+        console.log(newScore)
+        setScore(newScore);
+        setSubmitted(true);
+      };
+
+      const restartQuiz = () => {
+        setSelectedAnswers(Array(questionsArray.length).fill(''));
+        setScore(null);
+        setSubmitted(false);
+      };
+
+      return (
+        <div>
+          {!submitted ? (
+            <div>
+              {questionsArray.map((question, index) => (
+                <div key={index}>
+                  <p>{question.question}</p>
+                  {question.options.map((option, opIndex) => (
+                    <label key={opIndex}>
+                      <input
+                        type="radio"
+                        value={option}
+                        checked={selectedAnswers[index] === option}
+                        onChange={() => handleAnswerChange(index, option)}
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
+              ))}
+              <button onClick={handleSubmit}>Submit</button>
+            </div>
+          ) : (
+            <div>
+              <h2>Your Score: {score}/{questionsArray.length}</h2>
+              <button onClick={restartQuiz}>Restart Quiz</button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

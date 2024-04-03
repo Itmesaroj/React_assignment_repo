@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+
+// todolist item
+      function TodoItem({ todo, toggleTodo, removeTodo }) {
+        return (
+          <li> <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+              {todo.text}
+            </span>
+            <button onClick={() => removeTodo(todo.id)}>Remove</button>
+          </li>
+        );
+      }
+
+// todolist
+      function TodoList() {
+        const [todos, setTodos] = React.useState([]);
+        const [filter, setFilter] = React.useState('all');
+        const [inputValue, setInputValue] = React.useState('');
+
+
+// add toto items
+        const addTodo = () => {
+          if (inputValue.trim() !== '') {
+            const newTodo = {
+              id: todos.length+1,
+              text: inputValue,
+              completed: false
+            };
+            setTodos([...todos, newTodo]);
+            setInputValue(''); 
+          }
+        };
+
+// remove Todo 
+        const removeTodo = (id) => {
+          setTodos(todos.filter((todo) => todo.id !== id));
+        };
+// toggleTodo
+
+        const toggleTodo = (id) => {
+          setTodos(
+            todos.map((todo) =>
+              todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            )
+          );
+        };
+// filter functionality
+        const filteredTodos = todos.filter((todo) => {
+          if (filter === 'all') return todo;
+          if (filter === 'active') return !todo.completed;
+          if (filter === 'completed') return todo.completed;
+        });
+
+        return (
+          <div>
+            <input
+              type="text"
+              placeholder="Add new todo"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  addTodo();
+                }
+              }}
+            />
+            <ul>
+              {filteredTodos.map((todo) => (
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  toggleTodo={toggleTodo}
+                  removeTodo={removeTodo}
+                />
+              ))}
+            </ul>
+            <div>
+              <button onClick={() => setFilter('all')}>All</button>
+              <button onClick={() => setFilter('active')}>Active</button>
+              <button onClick={() => setFilter('completed')}>Completed</button>
+            </div>
+          </div>
+        );
+      }
+// TodoApp
+      function TodoApp() {
+        return (
+          <>
+            <h1>Todo App</h1>
+            <TodoList />
+          </>
+        );
+      }
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<TodoApp />);
+    </script>
+  </body>
+</html>

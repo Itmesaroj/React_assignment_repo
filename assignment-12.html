@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+      }
+  
+      .container {
+        max-width: 600px;
+        margin: 1rem auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+  
+      form {
+        display: flex;
+        margin-bottom: 20px;
+      }
+  
+      input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        outline: none;
+      }
+  
+      button[type="submit"] {
+        padding: 10px 20px;
+        background-color:  #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        outline: none;
+        margin-left: 1rem;
+      }
+  
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+  
+      li {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+  
+      li:last-child {
+        border-bottom: none;
+      }
+  
+      input[type="checkbox"] {
+        margin: 10px;
+      }
+
+      .Delete-btn{
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        outline: none;
+        margin: 1rem;
+      }
+  
+    
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    function TodoListTaks({todo,removeTodo,toggleTodo}){
+        return(
+            <li>
+                <input type="checkbox"  checked={todo.completed} onChange={() => toggleTodo(todo.id)} />
+                <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.task}</span>
+                <button onClick={()=>{
+                    removeTodo(todo.id)
+                }} className="Delete-btn">Delete</button>
+            </li>
+        )
+    }
+
+    function ToDoList(){
+        let[todo,setTodo]=React.useState([]);
+        let[inputval,setInputValue]=React.useState("");
+
+        function addTodo(e){
+
+            e.preventDefault();
+            if(inputval!==""){
+                let newTask={
+                id:todo.length+1,
+                completed:false,
+                task:inputval,
+            }
+            setTodo([...todo,newTask]);
+            setInputValue('');
+            }
+            
+        }
+        function removeTodo(id){
+            setTodo(todo.filter((todo)=>todo.id!==id));
+        }
+        const toggleTodo = (id) => {
+          setTodo(
+            todo.map((todo) =>
+              todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            )
+          );
+        };
+
+
+        return(
+            <div className="container">
+               
+                <form onSubmit={addTodo}>
+                    <input type="text" placeholder="Add new todo" value={inputval} onChange={(e) => setInputValue(e.target.value)} />
+                    <button type="submit">Add Task</button>
+                </form>
+                <ul>
+                    {todo.map((todo,index)=> <TodoListTaks key={index} todo={todo} removeTodo={removeTodo} toggleTodo={toggleTodo}/> )}
+                </ul>
+            </div>
+        )
+    }
+    
+    let root=ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<ToDoList/>);
+  </script>
+</html>

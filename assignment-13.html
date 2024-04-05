@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    function UserDisplay({data}){
+      return(
+        <div style={{border:"2px solid black" ,margin:"1rem auto", padding:"1rem"}}>
+         
+            <img src={data.avatar} />
+            <p>{data.first_name} {data.last_name}</p>
+            <p>{data.email}</p>
+        </div>
+              
+      )
+    }
+   
+        function UserProfile(){
+        let [data,setData]=React.useState([
+
+          {
+            "id": 1,
+            "email": "michael.lawson@reqres.in",
+            "first_name": "Michael",
+            "last_name": "Lawson",
+            "avatar": "https://reqres.in/img/faces/7-image.jpg"
+        },
+        {
+            "id": 2,
+            "email": "lindsay.ferguson@reqres.in",
+            "first_name": "Lindsay",
+            "last_name": "Ferguson",
+            "avatar": "https://reqres.in/img/faces/8-image.jpg"
+        },
+        {
+            "id": 3,
+            "email": "tobias.funke@reqres.in",
+            "first_name": "Tobias",
+            "last_name": "Funke",
+            "avatar": "https://reqres.in/img/faces/9-image.jpg"
+        },
+        {
+            "id": 4,
+            "email": "byron.fields@reqres.in",
+            "first_name": "Byron",
+            "last_name": "Fields",
+            "avatar": "https://reqres.in/img/faces/10-image.jpg"
+        },
+        {
+            "id": 5,
+            "email": "george.edwards@reqres.in",
+            "first_name": "George",
+            "last_name": "Edwards",
+            "avatar": "https://reqres.in/img/faces/11-image.jpg"
+        },
+        {
+            "id": 6,
+            "email": "rachel.howell@reqres.in",
+            "first_name": "Rachel",
+            "last_name": "Howell",
+            "avatar": "https://reqres.in/img/faces/12-image.jpg"
+        }]);
+        let[inputval,setInput]=React.useState("");
+        let filterData=data.filter((data)=>
+        `${data.first_name} ${data.last_name}`.toLocaleLowerCase().includes(inputval.toLocaleLowerCase())
+      )
+      console.log(filterData);
+        return(
+                <div >
+                  <div>
+                    <input type="text" value={inputval} onChange={(e)=>{setInput(e.target.value)}} placeholder="Search by name..." style={{width:"400px ",height:"30px" ,padding:"8px"}}/>
+                  </div>
+                  {filterData.map((data,ind)=>
+                    <UserDisplay key={data.id} data={data}/>
+                  )}
+                </div>
+        )
+        }
+
+
+        let root=ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<UserProfile/>)
+  </script>
+</html>

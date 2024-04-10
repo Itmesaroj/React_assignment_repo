@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    
+    function App(){
+        const [tasks, setTasks] = React.useState([]);
+        const [title, setTitle] = React.useState("");
+        const [isCompleted, setIsCompleted] = React.useState(false);
+        const [assignee, setAssignee] = React.useState("");
+        const [updatingTaskId, setUpdatingTaskId] = React.useState(null); 
+        // add new task
+
+        let addTask=async()=>{
+          try{
+            await axios.post('http://localhost:3000/todos', {
+                title,
+                isCompleted,
+                assignee
+            });
+            fetchData();
+          } 
+          catch (error) {
+            console.error('Error adding task: ', error);
+        }
+        }
+
+        // get data from given api
+        let fetchData=async()=>{
+          try{
+            let res=await axios.get("http://localhost:3000/todos");
+            setTasks(res.data);
+          }
+          catch(error){
+            console.log("Responess error:",error);
+          }
+        }
+
+        // update task
+        let updateTask=async()=>{
+          try {
+            const updatedTask = {
+                title,
+                isCompleted,
+                assignee
+            };
+            await axios.put(`http://localhost:3000/todos/${updatingTaskId}`, updatedTask);
+            fetchData();
+           
+            setTitle("");
+            setIsCompleted(false);
+            setAssignee("");
+            setUpdatingTaskId(null);
+        } catch (error) {
+            console.error('Error updating task: ', error);
+        }
+        }
+
+        // Delete Task
+        let deleteTask= async(id)=>{
+          try {
+            await axios.delete(`http://localhost:3000/todos/${id}`);
+            fetchData();
+          } 
+          catch (error) {
+              console.error('Error deleting task: ', error);
+          }
+        }
+       
+        return(
+            <div>
+            <h1>Add a Taks</h1>
+            <input type="text" placeholder="enter Task title" value={title} onChange={(e)=>{
+                setTitle(e.target.value);
+            }}/>
+            
+            <span>Check if the task is complete:-</span>
+            <input type="checkbox" checked={isCompleted} onChange={(e) => setIsCompleted(e.target.checked)} />
+            <input type="text" placeholder="Assignee" value={assignee} onChange={(e) => setAssignee(e.target.value)} />
+            {updatingTaskId ? (
+                <button onClick={updateTask}>Update Task</button>
+            ) : (
+                <button onClick={addTask}>Add Task</button>
+            )}
+            <button onClick={fetchData}>Get all tasks</button>
+            <div>
+        {tasks.map((task)=>
+              <div key={task.id}>
+                <p>{task.title}</p>
+                <p>Completed: {task.isCompleted ? 'Yes' : 'No'}</p>
+                <p>Assignee: {task.assignee}</p>
+                <button onClick={() => setUpdatingTaskId(task.id)}>Edit</button>
+                <button onClick={() => deleteTask(task.id)}>Delete</button>
+              </div>
+            )}
+        </div>    
+            
+      </div>
+        )
+    }
+    let root=ReactDOM.createRoot(document.getElementById("root"))
+    root.render(<App/>)
+  </script>
+</html>

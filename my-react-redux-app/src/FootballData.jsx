@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const FootballData = () => {
   const dispatch = useDispatch();
-  const { isLoading, isError, footballMatches } = useSelector((state) => state.footballMatches);
+  const {  footballMatches } = useSelector((state) => state.footballMatches);
 
   async function fetchDataFun(url) {
     try {
